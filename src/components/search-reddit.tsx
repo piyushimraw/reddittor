@@ -12,13 +12,6 @@ async function getData(query: string): Promise<RedditResponse | null> {
     return null;
   }
   const res = await fetch(`https://www.reddit.com/search.json?q=${query}`);
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
 
   return res.json();
 }
@@ -26,19 +19,49 @@ async function getData(query: string): Promise<RedditResponse | null> {
 export function SearchReddit() {
   const [query, setQuery] = useState("");
   const [response, setResponse] = useState<RedditResponse | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const onHandleEnter = (e: any) => {
     if (e.key === "Enter") {
-      getData(query).then((data) => {
-        if (!data) {
-          return;
-        }
-        setResponse(data);
-      });
+      setLoading(true);
+      getData(query)
+        .then((data) => {
+          if (!data) {
+            return;
+          }
+          setResponse(data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   };
 
   const posts = response?.data.children.map((child) => child.data) ?? [];
+
+  if (posts?.length === 0) {
+    return (
+      <div className="flex flex-col h-screen">
+        <div className="flex flex-col items-center justify-center h-full">
+          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+            <h1 className="text-2xl font-bold mb-4">Search for Subreddits</h1>
+            <p className="text-gray-600 mb-6">
+              Enter a keyword to search for relevant subreddits.
+            </p>
+            <div className="flex justify-center">
+              <Input
+                type="search"
+                placeholder="Enter keyword..."
+                className="px-4 py-2 rounded-md w-full max-w-md"
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={onHandleEnter}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const averageUpvotes =
     posts.reduce((acc, post) => acc + post.ups, 0) / posts.length;
