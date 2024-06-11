@@ -66,10 +66,8 @@ export function SearchReddit() {
   const averageUpvotes =
     posts.reduce((acc, post) => acc + post.ups, 0) / posts.length;
 
-  const averageComments = posts.reduce(
-    (acc, post) => acc + post.num_comments,
-    0
-  );
+  const averageCommentsPerPost =
+    posts.reduce((acc, post) => acc + post.num_comments, 0) / posts.length;
 
   return (
     <div className="flex flex-col h-screen">
@@ -80,11 +78,7 @@ export function SearchReddit() {
             placeholder="Search subreddits..."
             type="search"
             onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                onHandleEnter(e);
-              }
-            }}
+            onKeyDown={onHandleEnter}
           />
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
         </div>
@@ -105,27 +99,9 @@ export function SearchReddit() {
             </div>
             <div className="bg-gray-100 rounded-lg p-4">
               <h3 className="text-lg font-bold mb-2">Average Comments</h3>
-              <p className="text-4xl font-bold">{averageComments}</p>
-            </div>
-          </div>
-          <div className="mt-6">
-            <h3 className="text-lg font-bold mb-2">Most Popular Topics</h3>
-            <div className="flex flex-wrap gap-2">
-              <div className="bg-gray-200 rounded-full px-4 py-2 text-sm">
-                React
-              </div>
-              <div className="bg-gray-200 rounded-full px-4 py-2 text-sm">
-                Data Visualization
-              </div>
-              <div className="bg-gray-200 rounded-full px-4 py-2 text-sm">
-                Low-code
-              </div>
-              <div className="bg-gray-200 rounded-full px-4 py-2 text-sm">
-                Programming
-              </div>
-              <div className="bg-gray-200 rounded-full px-4 py-2 text-sm">
-                Technology
-              </div>
+              <p className="text-4xl font-bold">
+                {Math.floor(averageCommentsPerPost)}
+              </p>
             </div>
           </div>
         </div>
