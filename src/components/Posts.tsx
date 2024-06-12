@@ -12,7 +12,6 @@ function Posts(props: Props) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {topPosts.map((post) => {
-          console.log(post.selftext_html);
           return (
             <div className="bg-gray-100 rounded-lg p-4" key={post.id}>
               <h3 className="text-lg font-bold mb-2">{post.title}</h3>
