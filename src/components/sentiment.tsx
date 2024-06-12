@@ -25,7 +25,7 @@ function Sentiment({ text }: { text: string }) {
   if (loading)
     return (
       <>
-        <span>...</span>
+        <span className="ml-2">...</span>
       </>
     );
 
