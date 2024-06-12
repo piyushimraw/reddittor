@@ -2,13 +2,6 @@ import { render, screen } from "@testing-library/react";
 import Posts from "./Posts";
 import { ChildData } from "@/lib/types";
 
-// Mocking the fetch function used in the Sentiment component
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve([{ label: "POSITIVE" }]),
-  })
-) as jest.Mock;
-
 const mockPosts = [
   {
     id: "1",
@@ -29,6 +22,14 @@ const mockPosts = [
 ];
 
 describe("Posts Component", () => {
+  beforeEach(() => {
+    // Mocking the fetch function used in the Sentiment component
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve([{ label: "POSITIVE" }]),
+      })
+    ) as jest.Mock;
+  });
   it("renders the posts correctly", () => {
     render(<Posts posts={mockPosts as any} />);
 
