@@ -51,7 +51,7 @@ export function SearchReddit() {
             <div className="flex justify-center">
               <Input
                 type="search"
-                placeholder="Enter keyword..."
+                placeholder="Enter keyword and press enter to search..."
                 className="px-4 py-2 rounded-md w-full max-w-md"
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onHandleEnter}
@@ -75,7 +75,7 @@ export function SearchReddit() {
         <div className="flex-1 relative">
           <Input
             className="pl-10 pr-4 py-2 rounded-md w-full"
-            placeholder="Search subreddits..."
+            placeholder="Enter keyword and press enter to search..."
             type="search"
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onHandleEnter}
