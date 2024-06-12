@@ -1,7 +1,12 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
-import { MessageCircleIcon, SearchIcon, ThumbsUpIcon, UserIcon } from "./icons";
+import {
+  MessageCircleIcon,
+  SearchIcon,
+  ThumbsUpIcon,
+  UserIcon,
+} from "./ui/icons";
 import { BarChart, LineChart } from "./ui/charts";
 import Posts from "./Posts";
 import { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
 import React from "react";
-import { SendIcon } from "./icons";
+import { SendIcon } from "./ui/icons";
 
 function Sentiment({ text }: { text: string }) {
   const [loading, setLoading] = React.useState(false);
