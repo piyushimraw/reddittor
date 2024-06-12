@@ -1,5 +1,8 @@
 # Reddit Dashboard with Sentiment Analysis 📊🧠
 
+![Sentiment Analysis Visualization](docs/image-2.webp)
+
+
 This project is a Reddit Dashboard that provides sentiment analysis for Reddit posts using local AI transformers.js. It's designed to help you understand the overall sentiment of discussions on Reddit in real time. 🚀
 
 ## Idea 💡
