@@ -19,7 +19,7 @@ function Posts(props: Props) {
               onClick={() => window.open(`${post.url}`, "_blank")}
             >
               <h3 className="text-lg font-bold mb-2">{post.title}</h3>
-              <p className="text-gray-600 mb-2 text-ellipsis overflow-hidden h-4">
+              <p className="text-gray-600 mb-2 text-ellipsis overflow-hidden h-6">
                 {post.selftext}
               </p>
               <div className="flex items-center text-gray-500 text-sm">

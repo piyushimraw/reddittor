@@ -2,6 +2,13 @@ import { render, screen } from "@testing-library/react";
 import Posts from "./Posts";
 import { ChildData } from "@/lib/types";
 
+// Mocking the fetch function used in the Sentiment component
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve([{ label: "POSITIVE" }]),
+  })
+) as jest.Mock;
+
 const mockPosts = [
   {
     id: "1",
@@ -35,5 +42,10 @@ describe("Posts Component", () => {
     expect(screen.getByText("This is the second post")).toBeDefined();
     expect(screen.getByText("u/user2")).toBeDefined();
     expect(screen.getByText("200")).toBeDefined();
+  });
+
+  // Resetting mock after each test
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 });
