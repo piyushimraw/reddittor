@@ -1,17 +1,10 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
-import {
-  MessageCircleIcon,
-  SearchIcon,
-  ThumbsUpIcon,
-  UserIcon,
-} from "./ui/icons";
-import { BarChart, LineChart } from "./ui/charts";
-import Posts from "./Posts";
-import { useEffect, useMemo, useState } from "react";
 import { RedditResponse } from "@/lib/types";
+import { useEffect, useMemo, useState } from "react";
+import Posts from "./Posts";
 import { SentimentProps } from "./sentiment";
+import { SearchIcon } from "./ui/icons";
 
 async function getData(query: string): Promise<RedditResponse | null> {
   if (!query) {

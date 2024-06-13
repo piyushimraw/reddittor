@@ -3,7 +3,10 @@ import PipelineSingleton from "../pipeline";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const texts = body.texts;
+  const texts: Array<{
+    text: string;
+    id: string;
+  }> = body.texts;
   if (!texts || !Array.isArray(texts) || texts.length === 0) {
     return NextResponse.json(
       {
@@ -14,10 +17,10 @@ export async function POST(request: NextRequest) {
   }
   const classifier = await PipelineSingleton.getInstance();
 
-  let result = [];
+  let result: Record<string, any> = {};
 
   for (const text of texts) {
-    result.push(await classifier(text));
+    result[text.id] = await classifier(text.text);
   }
 
   return NextResponse.json(result);
