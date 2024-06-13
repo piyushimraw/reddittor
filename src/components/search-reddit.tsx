@@ -1,16 +1,10 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
-import {
-  MessageCircleIcon,
-  SearchIcon,
-  ThumbsUpIcon,
-  UserIcon,
-} from "./ui/icons";
-import { BarChart, LineChart } from "./ui/charts";
-import Posts from "./Posts";
-import { useEffect, useState } from "react";
 import { RedditResponse } from "@/lib/types";
+import { useEffect, useMemo, useState } from "react";
+import Posts from "./Posts";
+import { SentimentProps } from "./sentiment";
+import { SearchIcon } from "./ui/icons";
 
 async function getData(query: string): Promise<RedditResponse | null> {
   if (!query) {
@@ -42,7 +36,30 @@ export function SearchReddit() {
     }
   };
 
-  const posts = response?.data.children.map((child) => child.data) ?? [];
+  const posts = useMemo(
+    () => response?.data.children.map((child) => child.data) ?? [],
+    [response]
+  );
+
+  const [sentiments, setSentiments] = useState<Array<SentimentProps>>([]);
+
+  useEffect(() => {
+    const fetchSentiments = async () => {
+      const texts = posts.map((post) => post.selftext).filter(Boolean);
+      const res = await fetch("/classify/bulk", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ texts }),
+      });
+
+      const data = await res.json();
+      setSentiments(data);
+    };
+
+    fetchSentiments();
+  }, [posts]);
 
   if (posts?.length === 0) {
     return (
@@ -90,7 +107,7 @@ export function SearchReddit() {
       </div>
       <div className="flex-1 p-8">
         <h1 className="text-2xl font-bold mb-6">Reddit Dashboard</h1>
-        <Posts posts={posts} />
+        <Posts posts={posts} sentiments={sentiments} />
         <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
           <h2 className="text-xl font-bold mb-4">Key Metrics</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
